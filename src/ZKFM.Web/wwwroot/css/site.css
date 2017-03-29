@@ -616,6 +616,12 @@ img {
         margin-top: 10px;
         font-size: 1em;
     }
+    .searchbox{
+        width:250px;
+    }
+    .search{
+        width:200px;
+    }
 }
 
 
@@ -672,5 +678,12 @@ img {
         padding: 10px;
         margin-top: 10px;
         font-size: 1em;
+    }
+    .searchbox {
+        width: 250px;
+    }
+
+    .search {
+        width: 200px;
     }
 }

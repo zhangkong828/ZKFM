@@ -6,12 +6,67 @@ $(document).ready(function () {
     }
 
     initUI();
-    
+
     $(window).resize(function () {
         console.log("window resize");
         initUI();
     });
 
+    //歌曲列表按钮
+    listStatus = 0;
+    $('.list-button').click(function () {
+        listWidth = $('.playlist').width();
+        if (!listStatus) {
+            $(this).animate({ marginLeft: listWidth + 30 }, 300);
+            $('.playlist').animate({ marginLeft: 0 }, 300);
+            listStatus = 1;
+        } else {
+            $(this).animate({ marginLeft: 10 }, 300);
+            $('.playlist').animate({ marginLeft: -500 }, 300);
+            listStatus = 0;
+        }
+    });
+    //搜索列表
+    SearchlistStatus = 0;
+    $('.searchbtn').click(function () {
+        if (!SearchlistStatus) {
+            //$(this).animate({ marginLeft: listWidth + 30 }, 300);
+            $('.searchbox').animate({ top: 0 }, 500);
+            SearchlistStatus = 1;
+        } else {
+            //$(this).animate({ marginLeft: 10 }, 300);
+            $('.searchbox').animate({ top: -660 }, 500);
+            SearchlistStatus = 0;
+        }
+    });
+    //GitHub
+    $('.github').click(function () {
+        window.open('https://github.com/niubileme/ZKFM');
+    });
+    //循环方式
+    $('.repeat').click(function () {
+        var r = $(".repeat").attr("r");
+        if (r == 0) {
+            $(".repeat").attr("r", "1");
+            $(".repeat i").attr("title", "列表播放").removeClass("fa-random").addClass("fa-refresh");
+            audio.loop = true;
+        } else {
+            $(".repeat").attr("r", "0");
+            $(".repeat i").attr("title", "单曲循环").removeClass("fa-refresh").addClass("fa-random");
+            audio.loop = false;
+        }
+    });
+    //下一首
+    $('.nexts').click(function () {
+        $(".repeat").attr("r", "0");
+        $(".repeat i").attr("title", "单曲循环");
+        audio.loop = false;
+        loadMusic();
+    });
+    //关于
+    $('.about').click(function () {
+        alert("关于说明：\n歌曲自定义上传,编辑,歌词同步,\n登陆,收藏,下载,收听好友歌曲等社交功能...\n\n然而这并没有什么卵用...有啥问题,欢迎留言~");
+    });
 
 });
 
