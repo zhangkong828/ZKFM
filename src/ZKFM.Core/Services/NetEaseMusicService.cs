@@ -13,18 +13,8 @@ namespace ZKFM.Core.Services
 
 
 
-        //2.  歌单（网友精选碟） hot
-        //    - 请求地址：api/music/topPlaylist? cat = 全部 & order = hot & offset = 0 & total = true & limit = 3
-        //    - 请求参数：
-        //        * `cat`: 种类(默认hot)，其它参数，参考：http://music.163.com/#/discover/playlist中的分类名称
-        //        * `order`: 排序规则（默认为hot）
-        //        * `offset`: 偏移量,用于分页(默认0)
-        //        * `total`: 该分类下总数目
-        //        * `limit`: 分页所用， 返回的条数(默认50)
-        //3. 歌曲详情
-        //    - 请求地址： api/music/detail? ids = 29775505,300587
-        //    - 请求参数：
-        //        * `ids`: 歌曲对应的ID也可以是多个
+        
+
         //4. 获取歌词
         //    - 请求地址：api/music/lyric? id = 29775505
         //    - 请求参数：
@@ -40,7 +30,8 @@ namespace ZKFM.Core.Services
 
 
         //1. 搜索功能
-        //    - 请求地址： /api/music/search? s = { 0 }&limit={1}&offset={2}&type={3}
+        //    - 请求地址： http://music.163.com/api/search/get
+        //    - 请求方法：post
         //    - 请求参数：
         //        * `s`: 搜索词
         //        * `limit`: 分页所用， 返回的条数(默认30)
@@ -53,25 +44,78 @@ namespace ZKFM.Core.Services
         /// </summary>
         public async Task<NetEaseMusicSearchResult> Search(string key)
         {
-            return await Search(key, 10, 0, 1);
+            return await Search(key);
         }
 
         /// <summary>
         /// 搜索功能
         /// </summary>
-        public async Task<NetEaseMusicSearchResult> Search(string s, int limit, int offset, int type)
+        public async Task<NetEaseMusicSearchResult> Search(string s, int limit = 10, int offset = 0, int type = 1)
         {
-            var url = $"http://music.163.com/api/music/search";
-            var json = await HttpHelper.Request(url, new { s = s, limit = limit, offset = offset, type = type });
+            if (string.IsNullOrEmpty(s))
+                throw new ArgumentException("搜索关键字不能为空！");
+            var url = $"http://music.163.com/api/search/get";
+            var json = await HttpHelper.Request(url, new { s = s, limit = limit, offset = offset, type = type }, "post");
             return null;
         }
 
 
-        public Task<NetEaseMusic> Get(int id)
+        //2. 歌曲详情
+        //    - 请求地址： http://music.163.com/api/song/detail?ids=29775505,300587
+        //    - 请求参数：
+        //        * `ids`: 歌曲对应的ID也可以是多个
+
+        /// <summary>
+        /// 歌曲详情
+        /// </summary>
+        public async Task<NetEaseMusic> GetDetial(int id)
         {
+            var result = await GetDetialMulti(id);
+            return result != null ? result[0] : null;
+        }
+
+        /// <summary>
+        /// 歌曲详情
+        /// </summary>
+        public async Task<List<NetEaseMusic>> GetDetialMulti(params int[] ids)
+        {
+            if (ids == null || ids.Length == 0)
+                throw new ArgumentException("id不能为空！");
+            var url = $"http://music.163.com/api/song/detail";
+            var detail = await HttpHelper.Request(url, new { ids = string.Join(",", ids) });
             throw new NotImplementedException();
         }
 
 
+        //3. 获取歌词
+        //    - 请求地址：http://music.163.com/api/song/lyric?id=29775505
+        //    - 请求参数：
+        //        * `id`: 获取歌词对应的歌曲ID
+
+        /// <summary>
+        /// 获取歌词
+        /// </summary>
+        public async Task<NetEaseMusic> GetLyric(int id)
+        {
+            if (id == 0)
+                throw new ArgumentException("id不能为空！");
+            var url = $"http://music.163.com/api/song/lyric";
+            var lrc = await HttpHelper.Request(url, new { id = id });
+            throw new NotImplementedException();
+        }
+
+
+        //4.  歌单（网友精选碟） hot
+        //    - 请求地址：http://music.163.com/api/playlist/list
+        //    - 请求参数：
+        //        * `cat`: 种类(默认hot)，其它参数，参考：http://music.163.com/#/discover/playlist中的分类名称
+        //        * `order`: 排序规则（默认为hot）
+        //        * `offset`: 偏移量,用于分页(默认0)
+        //        * `total`: 该分类下总数目
+        //        * `limit`: 分页所用， 返回的条数(默认50)
+        public async Task<NetEaseMusic> GetHot()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
