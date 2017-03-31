@@ -6,6 +6,7 @@ using ZKFM.Core.Models;
 namespace ZKFM.Core.Services
 {
     public class NetEaseMusicService : IMusicService<NetEaseMusic, NetEaseMusicSearchResult>
+
     {
 
         //1. 搜索功能
@@ -49,6 +50,7 @@ namespace ZKFM.Core.Services
 
         public NetEaseMusicSearchResult Search(string key)
         {
+
             throw new NotImplementedException();
         }
     }
