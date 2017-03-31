@@ -1,11 +1,13 @@
-﻿namespace ZKFM.Core.Services
+﻿using System.Threading.Tasks;
+
+namespace ZKFM.Core.Services
 {
     interface IMusicService<TModel, TResult>
     {
 
-        TModel Get(int id);
+        Task<TModel> Get(int id);
 
 
-        TResult Search(string key);
+        Task<TResult> Search(string key);
     }
 }

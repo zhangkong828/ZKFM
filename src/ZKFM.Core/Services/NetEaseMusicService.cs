@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using ZKFM.Core.Infrastructure;
 using ZKFM.Core.Models;
 
 namespace ZKFM.Core.Services
@@ -9,13 +11,7 @@ namespace ZKFM.Core.Services
 
     {
 
-        //1. 搜索功能
-        //    - 请求地址： /api/music/search? s = { 0 }&limit={1}&offset={2}&type={3}
-        //    - 请求参数：
-        //        * `s`: 搜索词
-        //        * `limit`: 分页所用， 返回的条数(默认30)
-        //        * `offset`: 偏移量,用于分页(默认0)
-        //        * `type`: 搜索的种类，(默认1)[1 单曲][10 专辑][100 歌手][1000 歌单][1002 用户]
+
 
         //2.  歌单（网友精选碟） hot
         //    - 请求地址：api/music/topPlaylist? cat = 全部 & order = hot & offset = 0 & total = true & limit = 3
@@ -43,15 +39,39 @@ namespace ZKFM.Core.Services
         //        * `id`: 对应的MVID
 
 
-        public NetEaseMusic Get(int id)
+        //1. 搜索功能
+        //    - 请求地址： /api/music/search? s = { 0 }&limit={1}&offset={2}&type={3}
+        //    - 请求参数：
+        //        * `s`: 搜索词
+        //        * `limit`: 分页所用， 返回的条数(默认30)
+        //        * `offset`: 偏移量,用于分页(默认0)
+        //        * `type`: 搜索的种类，(默认1)[1 单曲][10 专辑][100 歌手][1000 歌单][1002 用户]
+
+
+        /// <summary>
+        /// 搜索功能
+        /// </summary>
+        public async Task<NetEaseMusicSearchResult> Search(string key)
+        {
+            return await Search(key, 10, 0, 1);
+        }
+
+        /// <summary>
+        /// 搜索功能
+        /// </summary>
+        public async Task<NetEaseMusicSearchResult> Search(string s, int limit, int offset, int type)
+        {
+            var url = $"http://music.163.com/api/music/search";
+            var json = await HttpHelper.Request(url, new { s = s, limit = limit, offset = offset, type = type });
+            return null;
+        }
+
+
+        public Task<NetEaseMusic> Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public NetEaseMusicSearchResult Search(string key)
-        {
 
-            throw new NotImplementedException();
-        }
     }
 }
