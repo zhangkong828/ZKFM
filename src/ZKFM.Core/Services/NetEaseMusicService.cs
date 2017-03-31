@@ -8,25 +8,7 @@ using ZKFM.Core.Models;
 namespace ZKFM.Core.Services
 {
     public class NetEaseMusicService : IMusicService<NetEaseMusic, NetEaseMusicSearchResult>
-
     {
-
-
-
-        
-
-        //4. 获取歌词
-        //    - 请求地址：api/music/lyric? id = 29775505
-        //    - 请求参数：
-        //        * `id`: 获取歌词对应的歌曲ID
-        //5. 获取歌单详情
-        //    - 请求地址：api/music/playlist? id = 374755836
-        //    - 请求参数：
-        //        * `id`: 歌单对应的ID
-        //6. 获取MV详情
-        //    - 请求地址： api/music/mv? id = 333042
-        //    - 请求参数：
-        //        * `id`: 对应的MVID
 
 
         //1. 搜索功能
@@ -63,7 +45,7 @@ namespace ZKFM.Core.Services
         //2. 歌曲详情
         //    - 请求地址： http://music.163.com/api/song/detail?ids=29775505,300587
         //    - 请求参数：
-        //        * `ids`: 歌曲对应的ID也可以是多个
+        //        * `ids`: 歌曲对应的ID  也可以是多个
 
         /// <summary>
         /// 歌曲详情
