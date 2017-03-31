@@ -9,10 +9,11 @@ namespace ZKFM.Test
         {
             var service = new NetEaseMusicService();
 
-            var searchresult = service.Search("成都");
-            Console.WriteLine(searchresult.Result.Total);
+            //var searchresult = service.Search("成都");
+            //Console.WriteLine(searchresult.Result.Total);
 
-
+            var searchresult = service.GetDetial(436514312);
+            Console.WriteLine(searchresult.Result.Id);
 
             Console.ReadKey();
         }

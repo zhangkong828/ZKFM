@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZKFM.Core.Infrastructure;
 using ZKFM.Core.Models;
+using ZKFM.Core.Services.DataFormatter;
 
 namespace ZKFM.Core.Services
 {
@@ -26,24 +27,24 @@ namespace ZKFM.Core.Services
         /// </summary>
         public async Task<NetEaseMusicSearchResult> Search(string key)
         {
-            return await Search(key);
+            return await Search(key, 10, 0, 1);
         }
 
         /// <summary>
         /// 搜索功能
         /// </summary>
-        public async Task<NetEaseMusicSearchResult> Search(string s, int limit = 10, int offset = 0, int type = 1)
+        public async Task<NetEaseMusicSearchResult> Search(string s, int limit, int offset, int type)
         {
             if (string.IsNullOrEmpty(s))
                 throw new ArgumentException("搜索关键字不能为空！");
             var url = $"http://music.163.com/api/search/get";
             var json = await HttpHelper.Request(url, new { s = s, limit = limit, offset = offset, type = type }, "post");
-            return null;
+            return NetEaseMusicDataFormatter.FormatSearchResult(json);
         }
 
 
         //2. 歌曲详情
-        //    - 请求地址： http://music.163.com/api/song/detail?ids=29775505,300587
+        //    - 请求地址： http://music.163.com/api/song/detail?ids=[29775505,300587]
         //    - 请求参数：
         //        * `ids`: 歌曲对应的ID  也可以是多个
 
@@ -64,8 +65,9 @@ namespace ZKFM.Core.Services
             if (ids == null || ids.Length == 0)
                 throw new ArgumentException("id不能为空！");
             var url = $"http://music.163.com/api/song/detail";
-            var detail = await HttpHelper.Request(url, new { ids = string.Join(",", ids) });
-            throw new NotImplementedException();
+            var detail = await HttpHelper.Request(url, new { ids = string.Join(",", ids).AddBrackets() });
+            var a = detail;
+            return null;
         }
 
 

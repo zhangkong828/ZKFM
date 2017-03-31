@@ -2,7 +2,6 @@
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -89,12 +88,7 @@ namespace ZKFM.Core.Infrastructure
             return responseBody;
         }
 
-
-        private static string ParseQueryString(this object obj)
-        {
-            return string.Join("&", obj.GetType().GetProperties().Select(x => string.Format("{0}={1}", x.Name, x.GetValue(obj))));
-        }
-
+        
 
     }
 }
