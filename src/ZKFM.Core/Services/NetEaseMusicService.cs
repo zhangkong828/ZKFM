@@ -20,8 +20,6 @@ namespace ZKFM.Core.Services
         //        * `limit`: 分页所用， 返回的条数(默认30)
         //        * `offset`: 偏移量,用于分页(默认0)
         //        * `type`: 搜索的种类，(默认1)[1 单曲][10 专辑][100 歌手][1000 歌单][1002 用户]
-
-
         /// <summary>
         /// 搜索功能
         /// </summary>
@@ -47,7 +45,6 @@ namespace ZKFM.Core.Services
         //    - 请求地址： http://music.163.com/api/song/detail?ids=[29775505,300587]
         //    - 请求参数：
         //        * `ids`: 歌曲对应的ID  也可以是多个
-
         /// <summary>
         /// 歌曲详情
         /// </summary>
@@ -75,7 +72,6 @@ namespace ZKFM.Core.Services
         //    - 请求地址：http://music.163.com/api/song/lyric?id=29775505
         //    - 请求参数：
         //        * `id`: 获取歌词对应的歌曲ID
-
         /// <summary>
         /// 获取歌词
         /// </summary>

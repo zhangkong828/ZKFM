@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ZKFM.Core.Services;
 
 namespace ZKFM.Test
@@ -9,11 +10,17 @@ namespace ZKFM.Test
         {
             var service = new NetEaseMusicService();
 
-            //var searchresult = service.Search("成都");
-            //Console.WriteLine(searchresult.Result.Total);
+            //搜索
+            var searchresult = service.Search("成都").Result;
+            Console.WriteLine($"Total:{searchresult.Total}");
+            foreach (var item in searchresult.Datas)
+            {
+                Console.WriteLine($"Id:{item.Id},Name:{item.Name},Author:{item.Author}");
+            }
 
-            var searchresult = service.GetDetial(436514312);
-            Console.WriteLine(searchresult.Result.Id);
+
+            //var searchresult = service.GetDetial(436514312);
+            //Console.WriteLine(searchresult.Result.Id);
 
             Console.ReadKey();
         }
