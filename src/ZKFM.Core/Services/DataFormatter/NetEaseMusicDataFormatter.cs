@@ -25,7 +25,7 @@ namespace ZKFM.Core.Services.DataFormatter
             }
             result.Total = total;
             //结果集
-            var mc = Regex.Matches(json,"\\{\"id\":(.+?),\"name\":\"(.+?)\",\"artists\":\\[\\{\"id\":.+?,\"name\":\"(.+?)\"[\\s\\S]*?\\}\\]");
+            var mc = Regex.Matches(Regex.Match(json, "\"songs\":\\[(.+?)\\],\"songCount\"").Groups[0].Value, "\\{\"id\":(.+?),\"name\":\"(.+?)\",\"artists\":\\[\\{\"id\":(.+?),\"name\":\"(.+?)\",[\\s\\S]*?\"rUrl\"");
             if (mc.Count <= 0)
             {
                 return result;
@@ -40,7 +40,7 @@ namespace ZKFM.Core.Services.DataFormatter
                     {
                         Id = id,
                         Name = item.Groups[2].Value.Trim(),
-                        Author = item.Groups[3].Value.Trim()
+                        Author = item.Groups[4].Value.Trim()
                     });
                 }
             }
