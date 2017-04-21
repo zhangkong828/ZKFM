@@ -62,9 +62,8 @@ namespace ZKFM.Core.Services
             if (ids == null || ids.Length == 0)
                 throw new ArgumentException("id不能为空！");
             var url = $"http://music.163.com/api/song/detail";
-            var detail = await HttpHelper.Request(url, new { ids = string.Join(",", ids).AddBrackets() });
-            var a = detail;
-            return null;
+            var json = await HttpHelper.Request(url, new { ids = string.Join(",", ids).AddBrackets() });
+            return NetEaseMusicDataFormatter.FormatDetialResult(json);
         }
 
 

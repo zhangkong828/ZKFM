@@ -46,5 +46,29 @@ namespace ZKFM.Core.Services.DataFormatter
             }
             return result;
         }
+
+
+        public static List<NetEaseMusic> FormatDetialResult(string json)
+        {
+            var result = new List<NetEaseMusic>();
+            var mc = Regex.Matches(json, "\"name\":\"(.+?)\",\"id\":(.+?),\"position\".+?\"name\":\"(.+?)\",\"id\":.+?,\"picId\".+?\"blurPicUrl\":\"(.+?)\".+?\"mp3Url\":\"(.+?)\"");
+            foreach (Match item in mc)
+            {
+                var id = 0;
+                if (int.TryParse(item.Groups[2].Value, out id) && id > 0)
+                {
+                    result.Add(new NetEaseMusic()
+                    {
+                        Id = id,
+                        Name = item.Groups[1].Value.Trim(),
+                        Author = item.Groups[3].Value.Trim(),
+                        Pic = item.Groups[4].Value.Trim(),
+                        Src = item.Groups[5].Value.Trim()
+                    });
+                }
+            }
+            return result;
+        }
+
     }
 }
