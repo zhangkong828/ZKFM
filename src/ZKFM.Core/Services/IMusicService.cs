@@ -6,7 +6,6 @@ namespace ZKFM.Core.Services
     {
 
         Task<TModel> GetDetial(int id);
-        Task<TModel> GetLyric(int id);
         Task<TResult> Search(string key);
     }
 }

@@ -43,6 +43,7 @@ namespace ZKFM.Core.Services
 
         //2. 歌曲详情
         //    - 请求地址： http://music.163.com/api/song/detail?ids=[29775505,300587]
+        //    - 请求方法：get
         //    - 请求参数：
         //        * `ids`: 歌曲对应的ID  也可以是多个
         /// <summary>
@@ -68,19 +69,24 @@ namespace ZKFM.Core.Services
 
 
         //3. 获取歌词
-        //    - 请求地址：http://music.163.com/api/song/lyric?id=29775505
+        //    - 请求地址：http://music.163.com/api/song/lyric
+        //    - 请求方法：get
         //    - 请求参数：
-        //        * `id`: 获取歌词对应的歌曲ID
+        //        * `os`: pc
+        //        * `id`: 歌曲ID
+        //        * `lv`: -1
+        //        * `kv`: -1
+        //        * `tv`: -1
         /// <summary>
-        /// 获取歌词
+        /// 获取歌词  nolyric表示无歌词，uncollected表示暂时无人提交歌词
         /// </summary>
-        public async Task<NetEaseMusic> GetLyric(int id)
+        public async Task<string> GetLyric(int id)
         {
             if (id == 0)
                 throw new ArgumentException("id不能为空！");
             var url = $"http://music.163.com/api/song/lyric";
-            var lrc = await HttpHelper.Request(url, new { id = id });
-            throw new NotImplementedException();
+            var json = await HttpHelper.Request(url, new { os = "pc", id = id, lv = -1, kv = -1, tv = -1 });
+            return NetEaseMusicDataFormatter.FormatLyricResult(json);
         }
 
 

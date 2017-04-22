@@ -13,14 +13,15 @@ namespace ZKFM.Test
             //搜索
             var searchresult = service.Search("李白").Result;
             Console.WriteLine($"Total:{searchresult.Total}");
-            foreach (var item in searchresult.Datas)
-            {
-                var msg = $"Id:{item.Id},Name:{item.Name},Author:{item.Author}";
-                Console.WriteLine(msg);
-            }
 
-            var detialresult = service.GetDetialMulti(27678655, 436514312);
-            Console.WriteLine(detialresult.Result.Count);
+            //详情
+            var detial = service.GetDetialMulti(27678655, 436514312).Result;
+            Console.WriteLine(detial.Count);
+
+
+            //歌词
+            var lrc = service.GetLyric(436514312).Result;
+            Console.WriteLine(lrc);
 
             Console.ReadKey();
         }
