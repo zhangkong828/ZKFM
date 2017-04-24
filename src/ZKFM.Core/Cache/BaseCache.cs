@@ -8,16 +8,16 @@ namespace ZKFM.Core.Cache
     public class BaseCache<T>
     {
         protected static object synObj = new object();
-        public ConcurrentDictionary<string, Tuple<T, DateTime>> innerData = null;
-        public int ThresholdCount = 1000;//阈值 超过该值 则开始清理过期cache
-        public int ExpireTime = 60;//过期时间 单位：分钟
+        public static ConcurrentDictionary<string, Tuple<T, DateTime>> innerData = null;
+        public static int ThresholdCount = 1000;//阈值 超过该值 则开始清理过期cache
+        public static int ExpireTime = 60;//过期时间 单位：分钟
 
         public BaseCache()
         {
             innerData = new ConcurrentDictionary<string, Tuple<T, DateTime>>();
         }
 
-        public bool Set(string key, T val)
+        public static  bool Set(string key, T val)
         {
             if (innerData.ContainsKey(key))
             {
@@ -40,7 +40,7 @@ namespace ZKFM.Core.Cache
             }
         }
 
-        public T Get(string key)
+        public static T Get(string key)
         {
             Tuple<T, DateTime> tuple = default(Tuple<T, DateTime>);
             innerData.TryGetValue(key, out tuple);
@@ -49,7 +49,7 @@ namespace ZKFM.Core.Cache
         }
 
 
-        private void TryClear()
+        private static void TryClear()
         {
             var val = default(Tuple<T, DateTime>);
             var copyData = new ConcurrentDictionary<string, Tuple<T, DateTime>>(innerData);

@@ -80,7 +80,7 @@ namespace ZKFM.Core.Services
         /// <summary>
         /// 获取歌词  nolyric表示无歌词，uncollected表示暂时无人提交歌词
         /// </summary>
-        public async Task<string> GetLyric(int id)
+        public async Task<Lrc> GetLyric(int id)
         {
             if (id == 0)
                 throw new ArgumentException("id不能为空！");

@@ -71,10 +71,13 @@ namespace ZKFM.Core.Services.DataFormatter
         }
 
 
-        public static string FormatLyricResult(string json)
+        public static Lrc FormatLyricResult(string json)
         {
-            var result = "";
-            result = Regex.Match(json, "\"lyric\":\"(.+?)\"\\}").Groups[1].Value;
+            var result = new Lrc();
+            var text = Regex.Match(json, "\"lyric\":\"(.+?)\"\\}").Groups[1].Value;
+            if (string.IsNullOrEmpty(text))
+                return result;
+            result.Text = text;
             return result;
         }
 
