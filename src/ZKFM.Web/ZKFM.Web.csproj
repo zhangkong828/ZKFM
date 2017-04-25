@@ -26,8 +26,15 @@
     <Content Include="wwwroot\img\bgcover.png" />
     <Content Include="wwwroot\img\chacha.png" />
     <Content Include="wwwroot\img\chrome.png" />
-    <Content Include="wwwroot\js\Initialization.js" />
-    <Content Include="wwwroot\js\Initialization.min.js" />
+    <Content Include="wwwroot\js\app.js" />
+    <Content Include="wwwroot\js\app\Initialization.js" />
+    <Content Include="wwwroot\js\app\Initialization.min.js" />
+    <Content Include="wwwroot\js\app\logger.js" />
+    <Content Include="wwwroot\js\lib\jquery.min.js" />
+    <Content Include="wwwroot\js\lib\jquery.min.map" />
+    <Content Include="wwwroot\js\require.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />

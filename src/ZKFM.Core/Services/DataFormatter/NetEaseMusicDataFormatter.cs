@@ -74,7 +74,8 @@ namespace ZKFM.Core.Services.DataFormatter
         public static Lrc FormatLyricResult(string json)
         {
             var result = new Lrc();
-            var text = Regex.Match(json, "\"lyric\":\"(.+?)\"\\}").Groups[1].Value;
+            var text = Regex.Match(json, "\"lyric\":\"(.+?)\"\\}")
+                .Groups[1].Value;
             if (string.IsNullOrEmpty(text))
                 return result;
             result.Text = text;
