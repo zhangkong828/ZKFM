@@ -16,9 +16,6 @@
     <Content Include="wwwroot\fonts\fontawesome-webfont.ttf" />
     <Content Include="wwwroot\fonts\fontawesome-webfont.woff" />
     <Content Include="wwwroot\fonts\FontAwesome.otf" />
-    <Content Include="wwwroot\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="wwwroot\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="wwwroot\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="wwwroot\img\album.jpg" />
     <Content Include="wwwroot\img\bg.jpg" />
     <Content Include="wwwroot\img\bg2.jpg" />
@@ -27,11 +24,15 @@
     <Content Include="wwwroot\img\chacha.png" />
     <Content Include="wwwroot\img\chrome.png" />
     <Content Include="wwwroot\js\app.js" />
-    <Content Include="wwwroot\js\app\Initialization.js" />
-    <Content Include="wwwroot\js\app\Initialization.min.js" />
-    <Content Include="wwwroot\js\app\logger.js" />
+    <Content Include="wwwroot\js\jquery.min.js" />
+    <Content Include="wwwroot\js\jquery.min.map" />
+    <Content Include="wwwroot\js\lib\config.js" />
+    <Content Include="wwwroot\js\lib\controller.js" />
+    <Content Include="wwwroot\js\lib\init.js" />
     <Content Include="wwwroot\js\lib\jquery.min.js" />
     <Content Include="wwwroot\js\lib\jquery.min.map" />
+    <Content Include="wwwroot\js\lib\logger.js" />
+    <Content Include="wwwroot\js\lib\player.js" />
     <Content Include="wwwroot\js\require.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

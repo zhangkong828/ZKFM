@@ -1,10 +1,11 @@
 ﻿requirejs.config({
     baseUrl: 'js/lib',
     paths: {
-        app: '../app'
+        jquery: '../jquery.min.js',
+        lib: '../lib'
     }
 });
 
-requirejs(['jquery', 'canvas', 'app/sub'], function ($, canvas, sub) {
+requirejs(['jquery'], function ($) {
 
 });
