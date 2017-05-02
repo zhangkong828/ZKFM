@@ -1,11 +1,11 @@
 ﻿requirejs.config({
     baseUrl: 'js/lib',
     paths: {
-        jquery: '../jquery.min.js',
+        jquery: '../jquery.min',
         lib: '../lib'
     }
 });
 
-requirejs(['jquery'], function ($) {
-
+requirejs(['jquery','lib/logger'], function ($,logger) {
+   
 });
