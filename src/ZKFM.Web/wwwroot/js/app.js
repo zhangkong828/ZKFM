@@ -6,6 +6,6 @@
     }
 });
 
-requirejs(['jquery','lib/logger'], function ($,logger) {
-   
+requirejs(['jquery', 'lib/config', 'lib/logger', 'lib/player', 'lib/controller'], function ($, config, logger, player, controller) {
+    player.start(1);
 });
