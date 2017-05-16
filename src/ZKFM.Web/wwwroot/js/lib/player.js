@@ -4,19 +4,19 @@
         console.log("lyc")
     }
     return {
-        play: function (data) {
+        Play: function (data) {
             audio.play();
         },
-        pause: function () {
+        Pause: function () {
             audio.pause();
         },
-        getloop: function () {
+        GetLoop: function () {
             return audio.loop;
         },
-        setloop: function (isloop) {
+        SetLoop: function (isloop) {
             audio.loop = isloop;
         },
-        getprogress: function () {
+        GetProgress: function () {
             if (audio.currentTime >= audio.duration)
                 return 100;
             return audio.currentTime / audio.duration * 100;
