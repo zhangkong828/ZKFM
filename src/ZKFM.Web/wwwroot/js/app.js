@@ -7,5 +7,6 @@
 });
 
 requirejs(['jquery', 'lib/config', 'lib/logger', 'lib/player', 'lib/controller'], function ($, config, logger, player, controller) {
-    player.start(1);
+    var music = config.default.music;
+    player.Play(music[0]);
 });
