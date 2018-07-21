@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Specialized;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
@@ -10,51 +11,66 @@ namespace ZKFM.Core.Infrastructure
     public static class HttpHelper
     {
 
-        public static async Task<string> Request(string url, object obj, string method = "GET")
+        public static async Task<string> NetEaseRequest(string url, object obj, string method = "GET")
         {
-            var result = string.Empty;
-            var requestType = method.Trim().ToUpper();
-            var param = "";
-            if (obj != null)
+            try
             {
-                //将对象转换成QueryString形式的字符串
-                param = obj.ParseQueryString();
-            }
+                var result = string.Empty;
+                var requestType = method.Trim().ToUpper();
+                var param = "";
 
-            if (requestType == "GET" && !string.IsNullOrEmpty(param))
-            {
-                //如果是get请求 拼接url
-                var sep = url.Contains('?') ? "&" : "?";
-                url += sep + param;
-            }
-
-            var request = WebRequest.Create(url) as HttpWebRequest;
-            request.Method = requestType;
-            request.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537";
-            request.ContinueTimeout = 1000 * 10;
-            request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip,deflate";
-
-            if (requestType == "POST")
-            {
-                //post请求  写入数据
-                byte[] bs = Encoding.UTF8.GetBytes(param);
-                request.ContentType = "application/x-www-form-urlencoded";
-                using (Stream reqStream = await request.GetRequestStreamAsync())
+                if (requestType == "GET" && obj != null)
                 {
-                    reqStream.Write(bs, 0, bs.Length);
+                    //如果是get请求 拼接url
+                    param = obj.ParseQueryString();
+                    var sep = url.Contains('?') ? "&" : "?";
+                    url += sep + param;
                 }
+                else if (requestType == "POST" && obj != null)
+                {
+                    var json = obj.ToJson();
+                    var cryptoreq = NetEaseCryptoHelper.EncryptedRequest(json);
+                    param = "params=" + cryptoreq.@params.UrlEncode() + "&encSecKey=" + cryptoreq.encSecKey.UrlEncode();
+                }
+
+
+                var request = WebRequest.Create(url) as HttpWebRequest;
+                request.Method = requestType;
+                request.Headers[HttpRequestHeader.Referer] = "http://music.163.com";
+                request.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537";
+                request.ContinueTimeout = 1000 * 10;
+                //request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip,deflate";
+                request.Headers[HttpRequestHeader.Cookie] = "appver=1.5.2;";
+
+
+                if (requestType == "POST")
+                {
+                    //post请求  写入数据
+                    byte[] bs = Encoding.UTF8.GetBytes(param);
+                    request.ContentType = "application/x-www-form-urlencoded";
+                    using (Stream reqStream = await request.GetRequestStreamAsync())
+                    {
+                        reqStream.Write(bs, 0, bs.Length);
+                    }
+                }
+                using (var response = await request.GetResponseAsync() as HttpWebResponse)
+                {
+                    result = GetResponseBody(response);
+                }
+                return result;
+
             }
-            using (var response = await request.GetResponseAsync() as HttpWebResponse)
+            catch (System.Exception)
             {
-                result = GetResponseBody(response);
+                return null;
             }
-            return result;
         }
 
         private static string GetResponseBody(HttpWebResponse response)
         {
             string responseBody = string.Empty;
-            if (response.Headers[HttpResponseHeader.ContentEncoding].ToLower().Contains("gzip"))
+            var contentEncoding = response.Headers[HttpResponseHeader.ContentEncoding];
+            if (contentEncoding != null && contentEncoding.ToLower().Contains("gzip"))
             {
                 using (GZipStream stream = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress))
                 {
@@ -64,7 +80,7 @@ namespace ZKFM.Core.Infrastructure
                     }
                 }
             }
-            else if (response.Headers[HttpResponseHeader.ContentEncoding].ToLower().Contains("deflate"))
+            else if (contentEncoding != null && contentEncoding.ToLower().Contains("deflate"))
             {
                 using (DeflateStream stream = new DeflateStream(
                     response.GetResponseStream(), CompressionMode.Decompress))
@@ -88,7 +104,6 @@ namespace ZKFM.Core.Infrastructure
             return responseBody;
         }
 
-        
 
     }
 }

@@ -48,24 +48,27 @@ namespace ZKFM.Core.Services.DataFormatter
         }
 
 
-        public static List<NetEaseMusic> FormatDetialResult(string json)
+        public static NetEaseMusic FormatDetialResult(string json)
         {
-            var result = new List<NetEaseMusic>();
-            var mc = Regex.Matches(json, "\"name\":\"(.+?)\",\"id\":(.+?),\"position\".+?\"name\":\"(.+?)\",\"id\":.+?,\"picId\".+?\"blurPicUrl\":\"(.+?)\".+?\"mp3Url\":\"(.+?)\"");
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
+            var result = new NetEaseMusic();
+            var mc = Regex.Matches(json, "\"name\":\"(.+?)\",\"id\":(.+?).+?\"ar\".+?\"id\":(.+?),\"name\":\"(.+?)\".+?\"picUrl\":\"(.+?)\"");
             foreach (Match item in mc)
             {
                 var id = 0;
                 if (int.TryParse(item.Groups[2].Value, out id) && id > 0)
                 {
-                    result.Add(new NetEaseMusic()
+                    result = new NetEaseMusic()
                     {
                         Id = id,
                         Name = item.Groups[1].Value.Trim(),
-                        Author = item.Groups[3].Value.Trim(),
-                        Pic = item.Groups[4].Value.Trim(),
-                        Src = item.Groups[5].Value.Trim()
-                    });
+                        Author = item.Groups[4].Value.Trim(),
+                        Pic = item.Groups[5].Value.Trim()
+                    };
                 }
+                else
+                    result = null;
             }
             return result;
         }
@@ -73,12 +76,12 @@ namespace ZKFM.Core.Services.DataFormatter
 
         public static Lrc FormatLyricResult(string json)
         {
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
             var result = new Lrc();
-            var text = Regex.Match(json, "\"lyric\":\"(.+?)\"\\}")
-                .Groups[1].Value;
-            if (string.IsNullOrEmpty(text))
-                return result;
-            result.Text = text;
+            var text = Regex.Match(json, "\"lyric\":\"(.+?)\"\\}").Groups[1].Value;
+            if (!string.IsNullOrEmpty(text))
+                result.Text = text;
             return result;
         }
 
