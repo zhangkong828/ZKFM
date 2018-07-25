@@ -19,7 +19,7 @@ namespace ZKFM.Test
             //Console.WriteLine(detial?.Pic);
 
             var url = service.GetMusicUrl(27678655).Result;
-
+            Console.WriteLine(url);
             //歌词
             //var lrc = service.GetLyric(27678655).Result;
             //Console.WriteLine(lrc.Text);
