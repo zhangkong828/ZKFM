@@ -85,5 +85,12 @@ namespace ZKFM.Core.Services.DataFormatter
             return result;
         }
 
+        public static string FormatUrlResult(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
+            var text = Regex.Match(json, "\"url\":\"(.+?)\"").Groups[1].Value;
+            return text;
+        }
     }
 }

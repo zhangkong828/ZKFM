@@ -102,13 +102,22 @@ namespace ZKFM.Core.Services
         //        * `br`: 320000 || 999000
         //        * `csrf_token`: 登录后的token
         /// </summary>
-        public async Task<Lrc> GetMusicUrl(params int[] ids)
+        public async Task<string> GetMusicUrl(int id)
         {
-            if (ids == null || ids.Length == 0)
-                throw new ArgumentException("id不能为空！");
+            int tryCount = 3;
+            TryPost:
             var url = $"http://music.163.com/weapi/song/enhance/player/url";
-            var json = await HttpHelper.NetEaseRequest(url, new { ids = string.Join(",", ids).AddBrackets(), br = 999000 }, "POST");
-            return NetEaseMusicDataFormatter.FormatLyricResult(json);
+            var json = await HttpHelper.NetEaseRequest(url, new { ids = string.Join(",", id).AddBrackets(), br = 999000 }, "POST");
+            var result = NetEaseMusicDataFormatter.FormatUrlResult(json);
+            if (result == null)
+            {
+                if (tryCount > 0)
+                {
+                    tryCount--;
+                    goto TryPost;
+                }
+            }
+            return result;
         }
 
     }
