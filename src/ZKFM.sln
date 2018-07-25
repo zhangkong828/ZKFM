@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKFM.Core", "ZKFM.Core\ZKFM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKFM.Web", "ZKFM.Web\ZKFM.Web.csproj", "{30DC3223-4A2D-4087-AB73-ECD8F75E7CD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZKFM.Test", "ZKFM.Test\ZKFM.Test.csproj", "{91EC6EBC-2B14-48E1-B89A-F099BD06E14A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKFM.Test", "ZKFM.Test\ZKFM.Test.csproj", "{91EC6EBC-2B14-48E1-B89A-F099BD06E14A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZKFM.FM", "ZKFM.FM\ZKFM.FM.csproj", "{03C52995-A880-4F1F-8297-E24A4E0883C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +29,15 @@ Global
 		{91EC6EBC-2B14-48E1-B89A-F099BD06E14A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91EC6EBC-2B14-48E1-B89A-F099BD06E14A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91EC6EBC-2B14-48E1-B89A-F099BD06E14A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03C52995-A880-4F1F-8297-E24A4E0883C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03C52995-A880-4F1F-8297-E24A4E0883C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03C52995-A880-4F1F-8297-E24A4E0883C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03C52995-A880-4F1F-8297-E24A4E0883C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B62C1286-A8E0-4330-A65B-2E9D742C9A9D}
 	EndGlobalSection
 EndGlobal
