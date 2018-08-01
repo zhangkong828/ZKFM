@@ -1,106 +1,99 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>音乐电台 - ZKFM</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <script>
+        //不支持ie9以下
+        var appName = navigator.appName;
+        var appVersion = navigator.appVersion;
+        console.info("appName:" + appName);
+        console.info("appVersion:" + appVersion);
+        if (appName == "Microsoft Internet Explorer" && appVersion.match(/(\d)./i)[1] <= 9) {
+            window.location.href = "noie.html";
+        }
+    </script>
+</head>
+<body>
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
+    <div class="searchbox">
+        <input type="text" id="text" class="search" value="" placeholder="搜索并回车" />
+        <input type="hidden" id="page" value="1" />
+        <div id="searchlist">
+            <div id="searchresult">
             </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Package Management" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Bring in libraries from NuGet and npm, and automate tasks using Grunt or Gulp.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner4.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
+            <div id="navi"></div>
         </div>
     </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
+    <div class="searchbtn"><i class="fa fa-search"></i></div>
 
-<div class="row">
-    <div class="col-md-3">
-        <h2>Application uses</h2>
-        <ul>
-            <li>Sample pages using ASP.NET Core MVC</li>
-            <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
-        </ul>
+    <div id="wrap">
+        <div class="control">
+            <div class="github"><i class="fa fa-github" title="GitHub"></i></div>
+            <div class="repeat" r="0"><i class="fa fa-random" title="单曲循环"></i></div>
+            <div class="nexts"><i class="fa fa-forward" title="下一首"></i></div>
+            <div class="about"><i class="fa fa-gear" title="关于"></i></div>
+        </div>
+
+        <div class="middle">
+            <nav class="play-list">
+                <div class="list-button"><i class="fa fa-bars"></i></div>
+                <div class="playlist">
+                    <div class="playlisttitle">播放列表</div>
+                    <div id="list">
+                        <div id="result"></div>
+                    </div>
+
+                </div>
+            </nav>
+
+            <div class="player">
+                <div class="album">
+                    @*<img src="~/img/album.jpg" alt="album" id="pic" class="rotate">*@
+                    <img src="" alt="album" id="pic" class="rotate">
+                    <div class="center"></div>
+                    <div class="start">
+                        <i class="fa fa-play"></i>
+                    </div>
+                </div>
+                <div class="title">
+                    <span class="xiamiid" style="display: none"></span>
+                    <h1 class="name"></h1>
+                    <h2 class="sub-title"></h2>
+                    <div class="lrc">
+                        <div id="lrc-lines">
+                            <p>一张褪色的照片</p>
+                            <p>好像带给我一点点怀念</p>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="music"></audio>
+            </div>
+
+        </div>
+        <div class="progress">
+            <div class="current"></div>
+        </div>
     </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
-        </ul>
+
+    <div class="cover"></div>
+    @*<img src="~/img/bg11.jpg" class="background"/>*@
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/Initialization.js"></script>*@
+    @*<script src="~/Content/js/playlist.js"></script>
+        <script src="~/Content/js/main.js"></script>*@
+    <script data-main="js/app.js" src="js/require.js"></script>
+    <div style="display:none">
+        <!--统计代码-->
     </div>
-    <div class="col-md-3">
-        <h2>Overview</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Run &amp; Deploy</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
-        </ul>
-    </div>
-</div>
+</body>
+</html>

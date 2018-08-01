@@ -6,7 +6,8 @@
     }
 });
 
-requirejs(['jquery', 'lib/config', 'lib/logger', 'lib/player', 'lib/controller'], function ($, config, logger, player, controller) {
-    var music = config.default.music;
-    player.Play(music[0]);
+requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player'], function ($, controller, config, logger, player) {
+    //var music = config.default.music;
+    //player.Play(music[0]);
+
 });
