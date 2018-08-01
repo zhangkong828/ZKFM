@@ -12,6 +12,7 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
     var currentIndex = -1;
     var timeout = 0;
     var lrctimeout = 0;
+
     var initUI = function () {
         var w = $(window).width();
         var h = $(window).height();

@@ -91,7 +91,7 @@
             var r = $(".repeat").attr("r");
             if (r == 0) {
                 if (musicList.length <= 0) {
-                    logger.debug("播放列表为空");
+                    logger.info("播放列表为空");
                     return;
                 }
                 currentIndex++;

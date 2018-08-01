@@ -27,6 +27,7 @@
     var updateProgress = function () {
         if (audio.currentTime == audio.duration) {
             clearInterval(timeout);
+            clearInterval(lrctimeout);
             ratio = 0;
             $('#wrap .progress .current').css({ 'width': ratio + '%' });
             loadMusic();
@@ -42,7 +43,6 @@
             $('.start i').addClass('playing').removeClass('fa-play').addClass('fa-pause');
             timeout = setInterval(updateProgress, 1000);
             lrctimeout = setInterval(lrcMove, 1000);
-            isPlaying = true;
             $('#pic').css("animationPlayState", "running");
         },
         Pause: function () {
@@ -51,7 +51,6 @@
             $('.start i').removeClass('playing').removeClass('fa-pause').addClass('fa-play');
             clearInterval(timeout);
             clearInterval(lrctimeout);
-            isPlaying = false;
             $('#pic').css("animationPlayState", "paused");
         },
         GetLoop: function () {
