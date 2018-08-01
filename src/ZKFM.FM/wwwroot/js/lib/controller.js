@@ -1,4 +1,14 @@
-﻿define(['jquery', 'logger', 'config'], function ($, logger, config) {
+﻿define(['jquery', 'logger', 'player'], function ($, logger, player) {
+
+    function getIndex(id) {
+        for (var j = 0; j < musicList.length; j++) {
+            if (musicList[j].id === id) {
+                return j;
+            }
+        }
+        return 0;
+    };
+
     return {
         addMusic: function (o) {
             logger.debug(o);
@@ -32,56 +42,65 @@
             if (window.localStorage) {
                 localStorage.removeItem(id);
             }
-            //if (id == $('.xiamiid').text()) {
-            //    loadMusic();
-            //}
+            if (id == $('.musicid').text()) {
+                this.LoadMusic();
+            }
         },
         playMusic: function (id) {
             logger.debug("play:" + id);
-            //cur = getIndex(id);
+            currentIndex = getIndex(id);
             $("#lrc-lines").css(" margin-top", "0px").html('');
-            clearInterval(timeout);
-            clearInterval(lrctimeout);
+            //clearInterval(timeout);
+            //clearInterval(lrctimeout);
             $('#wrap .progress .current').css({ 'width': '0%' });
             $.ajax({
-                type: "post",
-                url: "/search/song?id=" + id,
+                type: "get",
+                url: "/API/NetEaseMusic/V1/Get/" + id,
                 cache: false,
-                success: function (data) {
-                    logger.debug(data);
-                    if (data != "error" && data.src.substr(0, 4) == 'http') {
+                success: function (response) {
+                    logger.debug(response);
+                    if (response.code == 0) {
+                        var data = response.data;
                         $(".repeat").attr("r", "0");
                         $(".repeat i").attr("title", "单曲循环");
-                        audio.loop = false;
+                        player.SetLoop(false);
                         if (data.pic != null) {
                             $('.album img').attr('src', data.pic);
                         } else {
                             $('.album img').attr('src', '../img/album.jpg');
                         }
-                        audio.setAttribute("src", data.src);
-                        $('.xiamiid').text(id);
+                        $('.musicid').text(data.id);
                         $('.album img').attr('alt', data.name);
                         $(".name").html(data.name);
                         $(".sub-title").html(data.author);
                         $('.singleinfo').removeClass('active');
                         $('.playlist-item[m="' + id + '"]').children('.singleinfo').addClass('active');
-                        $("#lrc-lines").html(data.lrc_lines);
-                        lrc_index = data.lrc_index;
-                        play();
+                        //$("#lrc-lines").html(data.lrc_lines);
+                        //lrc_index = data.lrc_index;
+                        player.Play(data.src);
                     } else {
-                        //console.log("网络似乎出了点小问题，暂时没有找到！换下一首吧");
-                        setTimeout(function () {
-                            loadMusic();
-                        }, 600);
+                        logger.info(response.msg);
                     }
                 },
                 error: function (e) {
                     logger.error("playMusic error:" + e);
-                    setTimeout(function () {
-                        loadMusic();
-                    }, 600);
                 }
             });
+        },
+        LoadMusic: function () {
+            var r = $(".repeat").attr("r");
+            if (r == 0) {
+                if (musicList.length <= 0) {
+                    logger.debug("播放列表为空");
+                    return;
+                }
+                currentIndex++;
+                if (currentIndex >= musicList.length) {
+                    currentIndex = 0;
+                }
+                var id = musicList[currentIndex].id;
+                this.playMusic(id);
+            }
         }
 
     }

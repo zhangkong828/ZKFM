@@ -12,12 +12,12 @@ namespace ZKFM.Core.Cache
         public static int ThresholdCount = 1000;//阈值 超过该值 则开始清理过期cache
         public static int ExpireTime = 60;//过期时间 单位：分钟
 
-        public BaseCache()
+        static BaseCache()
         {
             innerData = new ConcurrentDictionary<string, Tuple<T, DateTime>>();
         }
 
-        public static  bool Set(string key, T val)
+        public static bool Set(string key, T val)
         {
             if (innerData.ContainsKey(key))
             {
@@ -43,8 +43,9 @@ namespace ZKFM.Core.Cache
         public static T Get(string key)
         {
             Tuple<T, DateTime> tuple = default(Tuple<T, DateTime>);
-            innerData.TryGetValue(key, out tuple);
-            return tuple.Item1;
+            if (innerData.TryGetValue(key, out tuple))
+                return tuple.Item1;
+            return default(T);
 
         }
 

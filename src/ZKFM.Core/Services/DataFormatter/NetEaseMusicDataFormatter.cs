@@ -53,23 +53,20 @@ namespace ZKFM.Core.Services.DataFormatter
             if (string.IsNullOrWhiteSpace(json))
                 return null;
             var result = new NetEaseMusic();
-            var mc = Regex.Matches(json, "\"name\":\"(.+?)\",\"id\":(.+?).+?\"ar\".+?\"id\":(.+?),\"name\":\"(.+?)\".+?\"picUrl\":\"(.+?)\"");
-            foreach (Match item in mc)
+            var mc = Regex.Match(json, "\"name\":\"(.+?)\",\"id\":(.+?),.+?\"ar\".+?\"id\":(.+?),\"name\":\"(.+?)\".+?\"picUrl\":\"(.+?)\"");
+            var id = 0;
+            if (int.TryParse(mc.Groups[2].Value, out id) && id > 0)
             {
-                var id = 0;
-                if (int.TryParse(item.Groups[2].Value, out id) && id > 0)
+                result = new NetEaseMusic()
                 {
-                    result = new NetEaseMusic()
-                    {
-                        Id = id,
-                        Name = item.Groups[1].Value.Trim(),
-                        Author = item.Groups[4].Value.Trim(),
-                        Pic = item.Groups[5].Value.Trim()
-                    };
-                }
-                else
-                    result = null;
+                    Id = id,
+                    Name = mc.Groups[1].Value.Trim(),
+                    Author = mc.Groups[4].Value.Trim(),
+                    Pic = mc.Groups[5].Value.Trim()
+                };
             }
+            else
+                result = null;
             return result;
         }
 

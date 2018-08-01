@@ -9,7 +9,9 @@
 requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player'], function ($, controller, config, logger, player) {
 
     musicList = [];//播放列表
-
+    var currentIndex = -1;
+    var timeout = 0;
+    var lrctimeout = 0;
     var initUI = function () {
         var w = $(window).width();
         var h = $(window).height();
@@ -55,6 +57,8 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
             controller.addMusic({ id: v.id, name: v.name });
         });
     }
+
+    controller.LoadMusic();
 
     //歌曲列表按钮
     listStatus = 0;
@@ -103,7 +107,7 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
         $(".repeat").attr("r", "0");
         $(".repeat i").attr("title", "单曲循环");
         player.SetLoop(false);
-        loadMusic();
+        controller.LoadMusic();
     });
     //关于
     $('.about').click(function () {
@@ -123,7 +127,6 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
     $(document).on("click", ".singleinfo", function () {
         var id = $(this).parent().attr("m");
         controller.playMusic(id);
-
     });
 
 });

@@ -35,8 +35,8 @@
         $('#wrap .progress .current').css({ 'width': ratio + '%' });
     };
     return {
-        Play: function (data) {
-            audio.src = data.src;
+        Play: function (src) {
+            audio.src = src;
             audio.play();
             $('.album').addClass('playing');
             $('.start i').addClass('playing').removeClass('fa-play').addClass('fa-pause');
