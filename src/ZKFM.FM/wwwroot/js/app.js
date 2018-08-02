@@ -9,9 +9,9 @@
 requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player'], function ($, controller, config, logger, player) {
 
     musicList = [];//播放列表
-    var currentIndex = -1;
-    var timeout = 0;
-    var lrctimeout = 0;
+    currentIndex = -1;
+    timeout = 0;
+    lrctimeout = 0;
 
     var initUI = function () {
         var w = $(window).width();
@@ -59,7 +59,15 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
         });
     }
 
-    controller.LoadMusic();
+    //controller.LoadMusic();
+
+    $('.start i').click(function () {
+        if ($(this).hasClass('playing')) {
+            player.Pause();
+        } else {
+            player.Play();
+        }
+    });
 
     //歌曲列表按钮
     listStatus = 0;
@@ -105,14 +113,11 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
     });
     //下一首
     $('.nexts').click(function () {
-        $(".repeat").attr("r", "0");
-        $(".repeat i").attr("title", "单曲循环");
-        player.SetLoop(false);
         controller.LoadMusic();
     });
     //关于
     $('.about').click(function () {
-        alert("关于说明：\n歌曲自定义上传,编辑,歌词同步,\n登陆,收藏,下载,收听好友歌曲等社交功能...\n\n然而这并没有什么卵用...有啥问题,欢迎留言~");
+        alert("关于说明：\n有啥问题,欢迎fork，提Issuee");
     });
 
 
@@ -130,4 +135,18 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
         controller.playMusic(id);
     });
 
+    //搜索
+    $("#navi").click(function () {
+        var page = parseInt($("#page").val());
+        $("#page").val(++page);
+        controller.Search();
+    });
+    $("body").keydown(function (e) {
+        if (e.keyCode == "13") {//回车
+            if ($('#text').val() != '') {
+                $('#searchresult').html('');
+                controller.Search();
+            }
+        }
+    });
 });

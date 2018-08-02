@@ -6,6 +6,6 @@ namespace ZKFM.Core.Services
     {
 
         Task<TModel> GetDetial(int id);
-        Task<TResult> Search(string key);
+        Task<TResult> Search(string key, int pageIndex, int pageSize);
     }
 }

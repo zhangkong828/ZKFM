@@ -1,4 +1,4 @@
-﻿define(['jquery', 'logger'], function ($, logger) {
+﻿define(['jquery', 'logger', 'controller'], function ($, logger, controller) {
     audio = document.getElementById("music");
     function Lyc() {
         console.log("lyc")
@@ -23,6 +23,7 @@
         //    }
         //}
     };
+
     //进度条
     var updateProgress = function () {
         if (audio.currentTime == audio.duration) {
@@ -30,34 +31,47 @@
             clearInterval(lrctimeout);
             ratio = 0;
             $('#wrap .progress .current').css({ 'width': ratio + '%' });
-            loadMusic();
+            controller.LoadMusic();
         }
         ratio = audio.currentTime / audio.duration * 100;
         $('#wrap .progress .current').css({ 'width': ratio + '%' });
     };
+
+    var Play = function () {
+        audio.play();
+        $('.album').addClass('playing');
+        $('.start i').addClass('playing').removeClass('fa-play').addClass('fa-pause');
+        timeout = setInterval(updateProgress, 1000);
+        lrctimeout = setInterval(lrcMove, 1000);
+        $('#pic').css("animationPlayState", "running");
+    };
+
+    var Pause = function () {
+        audio.pause();
+        $('.album').removeClass('playing');
+        $('.start i').removeClass('playing').removeClass('fa-pause').addClass('fa-play');
+        clearInterval(timeout);
+        clearInterval(lrctimeout);
+        $('#pic').css("animationPlayState", "paused");
+    };
+
+    var GetLoop = function () {
+        return audio.loop;
+    };
+
+    var SetLoop = function (isloop) {
+        audio.loop = isloop;
+    };
+
+    var SetAudioSrc = function (src) {
+        audio.src = src;
+    };
+
     return {
-        Play: function (src) {
-            audio.src = src;
-            audio.play();
-            $('.album').addClass('playing');
-            $('.start i').addClass('playing').removeClass('fa-play').addClass('fa-pause');
-            timeout = setInterval(updateProgress, 1000);
-            lrctimeout = setInterval(lrcMove, 1000);
-            $('#pic').css("animationPlayState", "running");
-        },
-        Pause: function () {
-            audio.pause();
-            $('.album').removeClass('playing');
-            $('.start i').removeClass('playing').removeClass('fa-pause').addClass('fa-play');
-            clearInterval(timeout);
-            clearInterval(lrctimeout);
-            $('#pic').css("animationPlayState", "paused");
-        },
-        GetLoop: function () {
-            return audio.loop;
-        },
-        SetLoop: function (isloop) {
-            audio.loop = isloop;
-        }
-    }
+        Play: Play,
+        Pause: Pause,
+        GetLoop: GetLoop,
+        SetLoop: SetLoop,
+        SetAudioSrc: SetAudioSrc
+    };
 });

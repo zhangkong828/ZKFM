@@ -28,9 +28,13 @@ namespace ZKFM.Core.Services
         ///        * `offset`: 偏移量,用于分页(默认0)
         ///        * `type`: 搜索的种类，(默认1)[1 单曲][10 专辑][100 歌手][1000 歌单][1002 用户]
         /// </summary>
-        public async Task<NetEaseMusicSearchResult> Search(string key)
+        public async Task<NetEaseMusicSearchResult> Search(string key, int pageIndex, int pageSize)
         {
-            return await Search(key, 10, 0, 1);
+            pageIndex = pageIndex < 1 ? 1 : pageIndex;
+            pageSize = pageSize < 10 ? 10 : pageSize;
+            var limit = pageSize;
+            var offset = (pageIndex - 1) * pageSize;
+            return await Search(key, limit, offset, 1);
         }
 
         /// <summary>
