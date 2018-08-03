@@ -6,7 +6,7 @@
     }
 });
 
-requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player'], function ($, controller, config, logger, player) {
+requirejs(['jquery', 'lib/core', 'lib/controller', 'lib/config', 'lib/logger'], function ($, core, controller, config, logger) {
 
     musicList = [];//播放列表
     currentIndex = -1;
@@ -48,24 +48,24 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
         for (var i = 0; i < storage.length; i++) {
             var key = storage.key(i);
             if (!isNaN(Number(key))) {
-                controller.addMusic({ id: storage.key(i), name: storage.getItem(storage.key(i)) });
+                controller.AddMusic({ id: storage.key(i), name: storage.getItem(storage.key(i)) });
             }
         }
     }
     //本地无数据 加载默认配置
     if (musicList.length == 0) {
         $.each(config.default.music, function (i, v) {
-            controller.addMusic({ id: v.id, name: v.name });
+            controller.AddMusic({ id: v.id, name: v.name });
         });
     }
 
-    //controller.LoadMusic();
+    //player.LoadMusic();
 
     $('.start i').click(function () {
         if ($(this).hasClass('playing')) {
-            player.Pause();
+            core.Pause();
         } else {
-            player.Play();
+            core.Play();
         }
     });
 
@@ -104,16 +104,16 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
         if (r == 0) {
             $(".repeat").attr("r", "1");
             $(".repeat i").attr("title", "列表播放").removeClass("fa-random").addClass("fa-refresh");
-            player.SetLoop(true);
+            core.SetLoop(true);
         } else {
             $(".repeat").attr("r", "0");
             $(".repeat i").attr("title", "单曲循环").removeClass("fa-refresh").addClass("fa-random");
-            player.SetLoop(false);
+            core.SetLoop(false);
         }
     });
     //下一首
     $('.nexts').click(function () {
-        controller.LoadMusic();
+        core.LoadMusic();
     });
     //关于
     $('.about').click(function () {
@@ -124,28 +124,32 @@ requirejs(['jquery', 'lib/controller', 'lib/config', 'lib/logger', 'lib/player']
     $(document).on("click", "#searchresult p", function () {
         var id = $(this).attr("m");
         var name = $(this).text();
-        controller.addMusic2(id, name);
+        controller.AddMusic2(id, name);
+        core.PlayMusic(id);
     });
     $(document).on("click", ".delete", function () {
         var id = $(this).parent().parent().attr("m");
-        controller.delMusic(id);
+        controller.DelMusic(id);
+        if (id == $('.musicid').text()) {
+            core.LoadMusic();
+        }
     });
     $(document).on("click", ".singleinfo", function () {
         var id = $(this).parent().attr("m");
-        controller.playMusic(id);
+        core.PlayMusic(id);
     });
 
     //搜索
     $("#navi").click(function () {
         var page = parseInt($("#page").val());
         $("#page").val(++page);
-        controller.Search();
+        core.SearchMusic();
     });
     $("body").keydown(function (e) {
         if (e.keyCode == "13") {//回车
             if ($('#text').val() != '') {
                 $('#searchresult').html('');
-                controller.Search();
+                core.SearchMusic();
             }
         }
     });

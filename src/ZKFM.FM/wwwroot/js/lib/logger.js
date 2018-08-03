@@ -1,8 +1,8 @@
-﻿define(['config'], function (config) {
+﻿define(['lib/config'], function (config) {
     return {
         debug: function (msg) {
             if (config.default.logger.debug)
-                console.debug(msg);
+                console.log(msg);
         },
         info: function (msg) {
             console.info(msg);
