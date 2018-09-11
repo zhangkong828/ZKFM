@@ -8,7 +8,7 @@
             {
                 id: "436514312",
                 name: "成都"
-            },
+            }
         ],
         logger: {
             debug: true
