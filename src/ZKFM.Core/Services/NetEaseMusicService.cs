@@ -75,6 +75,12 @@ namespace ZKFM.Core.Services
                     goto TryPost;
                 }
             }
+
+            if (result!=null)
+            {
+                result.Src = await GetMusicUrl(id);
+                result.Lrc = await GetLyric(id);
+            }
             return result;
         }
 
@@ -115,7 +121,7 @@ namespace ZKFM.Core.Services
             var url = $"http://music.163.com/weapi/song/enhance/player/url";
             var json = await HttpHelper.NetEaseRequest(url, new { ids = string.Join(",", id).AddBrackets(), br = 999000 }, "POST");
             var result = NetEaseMusicDataFormatter.FormatUrlResult(json);
-            if (result == null)
+            if (string.IsNullOrWhiteSpace(result))
             {
                 if (tryCount > 0)
                 {

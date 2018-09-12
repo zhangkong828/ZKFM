@@ -8,10 +8,10 @@
             }
         }
         return 0;
-    };
+    }
 
     function Lyc() {
-        console.log("lyc")
+        console.log("lyc");
     }
     //歌词
     var lrcMove = function () {
