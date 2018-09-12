@@ -39,12 +39,12 @@ namespace ZKFM.Core.Models
         /// </summary>
         public string Src { get; set; }
         /// <summary>
-        /// 歌词文本
+        /// 歌词
         /// </summary>
         public string Text { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public KeyValuePair<string, int> Text2 { get; set; }
+        public List<KeyValuePair<int, int>> Text2 { get; set; }
     }
 }

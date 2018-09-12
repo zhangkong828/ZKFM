@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>您的浏览器版本过低</title>
+    <style>
+
+        html {
+            margin: 0;
+            height: 100%;
+            background: #FFF url(/img/chrome.png) no-repeat 50%;
+        }
+
+        a {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 164px 0 0 -113px;
+            width: 226px;
+            height: 90px;
+            text-indent: -999em;
+            background: #FFF;
+            opacity: 0;
+            filter: alpha(opacity='0');
+        }
+
+            a:hover {
+                opacity: .1;
+                filter: alpha(opacity='10');
+            }
+    </style>
+    <script>alert("您的浏览器版本过低，暂不支持您的浏览器！");</script>
+</head>
+<body>
+    <a onclick="alert('咳咳，百度一下，都知道~~')">下载</a>
+</body>
+</html>

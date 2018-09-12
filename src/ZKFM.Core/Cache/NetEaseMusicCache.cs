@@ -11,7 +11,7 @@ namespace ZKFM.Core.Cache
         public NetEaseMusicCache()
         {
             ThresholdCount = 1000;
-            ExpireTime = 60;
+            ExpireTime = 300;
         }
     }
 }

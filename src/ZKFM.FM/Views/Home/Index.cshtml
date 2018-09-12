@@ -18,7 +18,7 @@
         console.info("appName:" + appName);
         console.info("appVersion:" + appVersion);
         if (appName == "Microsoft Internet Explorer" && appVersion.match(/(\d)./i)[1] <= 9) {
-            window.location.href = "noie.html";
+            window.location.href = "/noie.html";
         }
     </script>
 </head>
@@ -57,8 +57,7 @@
 
             <div class="player">
                 <div class="album">
-                    @*<img src="~/img/album.jpg" alt="album" id="pic" class="rotate">*@
-                    <img src="" alt="album" id="pic" class="rotate">
+                    <img src="~/img/album.jpg" alt="album" id="pic" class="rotate">
                     <div class="center"></div>
                     <div class="start">
                         <i class="fa fa-play"></i>
@@ -70,8 +69,8 @@
                     <h2 class="sub-title"></h2>
                     <div class="lrc">
                         <div id="lrc-lines">
-                            <p>一张褪色的照片</p>
-                            <p>好像带给我一点点怀念</p>
+                            @*<p>一张褪色的照片</p>
+                            <p>好像带给我一点点怀念</p>*@
                         </div>
                     </div>
                 </div>
@@ -86,11 +85,7 @@
     </div>
 
     <div class="cover"></div>
-    @*<img src="~/img/bg11.jpg" class="background"/>*@
-    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/Initialization.js"></script>*@
-    @*<script src="~/Content/js/playlist.js"></script>
-        <script src="~/Content/js/main.js"></script>*@
+    <img src="~/img/bg.jpg" class="background"/>
     <script data-main="js/app.js" src="js/require.js"></script>
     <div style="display:none">
         <!--统计代码-->

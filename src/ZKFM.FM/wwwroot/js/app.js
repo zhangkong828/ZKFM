@@ -59,7 +59,7 @@ requirejs(['jquery', 'lib/core', 'lib/controller', 'lib/config', 'lib/logger'], 
         });
     }
 
-    //player.LoadMusic();
+    core.LoadMusic();
 
     $('.start i').click(function () {
         if ($(this).hasClass('playing')) {

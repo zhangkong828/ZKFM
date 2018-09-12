@@ -76,9 +76,39 @@ namespace ZKFM.Core.Services.DataFormatter
             if (string.IsNullOrWhiteSpace(json))
                 return null;
             var result = new Lrc();
+            result.Text2 = new List<KeyValuePair<int, int>>();
             var text = Regex.Match(json, "\"lyric\":\"(.+?)\"\\}").Groups[1].Value;
             if (!string.IsNullOrEmpty(text))
-                result.Text = text;
+            {
+                var strs = text.Split("\\n", StringSplitOptions.RemoveEmptyEntries);
+                var htmls = new StringBuilder();
+                var reg = new Regex("\\[(.+?)\\](.*)");
+                for (int i = 0; i < strs.Length; i++)
+                {
+                    var str = strs[i];
+                    if (reg.IsMatch(str))
+                    {
+                        var mc = reg.Match(str);
+                        var timeStr = mc.Groups[1].Value;
+                        var lineStr = mc.Groups[2].Value;
+
+                        timeStr = timeStr.Replace(".00", ".000");//毫秒处理
+                        timeStr = "00:" + timeStr;//添加分钟
+                        var ts = new TimeSpan();
+                        if (TimeSpan.TryParse(timeStr, out ts))//时间转换
+                        {
+                            if (!string.IsNullOrWhiteSpace(lineStr))
+                                lineStr = lineStr.Trim();
+                            htmls.Append("<p>" + lineStr + "</p>");
+
+                            result.Text2.Add(new KeyValuePair<int, int>(i, (int)ts.TotalSeconds));
+                        }
+
+                    }
+                }
+
+                result.Text = htmls.ToString();
+            }
             return result;
         }
 

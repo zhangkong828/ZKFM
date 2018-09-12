@@ -5,7 +5,8 @@
                 console.log(msg);
         },
         info: function (msg) {
-            console.info(msg);
+            if (config.default.logger.info)
+                console.info(msg);
         },
         warn: function (msg) {
             console.warn(msg);

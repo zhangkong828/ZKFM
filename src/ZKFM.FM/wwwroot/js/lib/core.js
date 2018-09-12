@@ -10,28 +10,25 @@
         return 0;
     }
 
-    function Lyc() {
-        console.log("lyc");
-    }
     //歌词
     var lrcMove = function () {
-        //if (lrc_index.length > 0) {
-        //    var time = parseInt(audio.currentTime);
-        //    //console.log(time);
-        //    var i = 0;
-        //    for (var j = 0; j < lrc_index.length; j++) {
-        //        if (lrc_index[j].time == time) {
-        //            i = lrc_index[j].index;
-        //            break;
-        //        }
-        //    }
-        //    if (i != 0) {
-        //        var y = i * 30;
-        //        // console.log("line:" + i);
-        //        $("#lrc-lines p").removeClass("lrc-current").eq(i - 1).addClass("lrc-current");
-        //        $("#lrc-lines").animate({ marginTop: (30 - y) + "px" });
-        //    }
-        //}
+        if (lrc_index.length > 0) {
+            var time = parseInt(audio.currentTime);
+            //console.log(time);
+            var i = 0;
+            for (var j = 0; j < lrc_index.length; j++) {
+                if (lrc_index[j].value == time) {
+                    i = lrc_index[j].key;
+                    break;
+                }
+            }
+            if (i != 0) {
+                var y = i * 30;
+                logger.info("line:" + i);
+                $("#lrc-lines p").removeClass("lrc-current").eq(i - 1).addClass("lrc-current");
+                $("#lrc-lines").animate({ marginTop: (30 - y) + "px" });
+            }
+        }
     };
 
     //进度条
@@ -45,7 +42,7 @@
         }
         ratio = audio.currentTime / audio.duration * 100;
         $('#wrap .progress .current').css({ 'width': ratio + '%' });
-        logger.info(ratio);
+        //logger.info(ratio);
     };
 
     var play = function () {
@@ -122,8 +119,9 @@
                     $(".sub-title").html(data.author);
                     $('.singleinfo').removeClass('active');
                     $('.playlist-item[m="' + id + '"]').children('.singleinfo').addClass('active');
-                    //$("#lrc-lines").html(data.lrc_lines);
-                    //lrc_index = data.lrc_index;
+                    logger.info(data.lrc);
+                    $("#lrc-lines").html(data.lrc.text);
+                    lrc_index = data.lrc.text2;
                     setAudioSrc(data.src);
                     play();
                 } else {

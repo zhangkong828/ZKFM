@@ -31,10 +31,8 @@ namespace ZKFM.FM.Controllers
             if (result == null)
             {
                 result = service.GetDetial(id).Result;
-                if (result != null)
+                if (result != null && !string.IsNullOrWhiteSpace(result.Src))
                 {
-                    result.Src = service.GetMusicUrl(id).Result;
-                    result.Lrc = service.GetLyric(id).Result;
                     NetEaseMusicCache.Set(id.ToString(), result);
                 }
             }
