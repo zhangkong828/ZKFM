@@ -101,7 +101,7 @@ namespace ZKFM.Core.Services.DataFormatter
                                 lineStr = lineStr.Trim();
                             htmls.Append("<p>" + lineStr + "</p>");
 
-                            result.Text2.Add(new KeyValuePair<int, int>(i, (int)ts.TotalSeconds));
+                            result.Text2.Add(new KeyValuePair<int, int>((i + 1), (int)ts.TotalSeconds));
                         }
 
                     }

@@ -19,6 +19,7 @@ namespace ZKFM.FM
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:11234")
                 .UseStartup<Startup>()
                 .Build();
     }
